@@ -6,3 +6,47 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     String @default("USER")
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+}
+
+model Cart_Product {
+  id Int @id @default(autoincrement())
+}
+
+model Product {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  price  Int
+  rating Int    @default(0)
+  img    String
+}
+
+model Type {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Brand {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Rating {
+  id   Int @id @default(autoincrement())
+  rate Int
+}
+
+model Feature {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+}
