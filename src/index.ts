@@ -1,24 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
 import { prisma } from "../lib/prisma";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
 
+app.use(cors());
+app.use(express.json());
+
 app.get("/", async (req, res) => {
   try {
-    // const user = await prisma.user.create({
-    //   data: {
-    //     email: "bob@marley.com",
-    //     password: "test",
-    //   },
-    // });
-
     const users = await prisma.user.findMany();
-
-    // console.log("All users:", JSON.stringify(users));
 
     res.json(users);
   } catch (error) {
