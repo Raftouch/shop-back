@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import { prisma } from "../lib/prisma";
 import cors from "cors";
+import router from "../routes/index";
 
 dotenv.config();
 
@@ -11,11 +11,11 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+app.use("/api", router);
+
 app.get("/", async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
-
-    res.json(users);
+    res.json({ message: "Welcome to the Shop API" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
