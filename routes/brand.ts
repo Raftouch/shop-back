@@ -1,9 +1,11 @@
 import express from "express";
+import { create, getAll } from "../controllers/brand";
 
 const router = express.Router();
 
-router.post("/");
-router.get("/");
-router.get("/:id");
+router.post("/", create);
+router.get("/", getAll);
+
+// router.get("/:id");
 
 export default router;
