@@ -1,7 +1,14 @@
 import express from "express";
 import { prisma } from "../lib/prisma";
+import { register, login, authCheck } from "../controllers/user";
 
 const router = express.Router();
+
+router.post("/register", register);
+
+router.post("/login", login);
+
+router.get("/auth", authCheck);
 
 router.get("/", async (req, res) => {
   try {
