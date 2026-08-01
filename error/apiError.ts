@@ -1,28 +1,24 @@
-import { ApiErrorType } from "../types/error";
+export class ApiError extends Error {
+  status: number;
 
-export const ApiError = {
-  notFound(): ApiErrorType {
-    return {
-      status: 404,
-      message: "Not found",
-    };
-  },
-  badRequest(): ApiErrorType {
-    return {
-      status: 400,
-      message: "Bad request",
-    };
-  },
-  unauthorized(): ApiErrorType {
-    return {
-      status: 401,
-      message: "Unauthorized",
-    };
-  },
-  forbidden(): ApiErrorType {
-    return {
-      status: 403,
-      message: "Forbidden",
-    };
-  },
-};
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+
+  static notFound() {
+    return new ApiError(404, "Not found");
+  }
+
+  static badRequest() {
+    return new ApiError(400, "Bad request");
+  }
+
+  static unauthorized() {
+    return new ApiError(401, "Unauthorized");
+  }
+
+  static forbidden() {
+    return new ApiError(403, "Forbidden");
+  }
+}
