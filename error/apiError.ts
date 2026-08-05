@@ -6,19 +6,19 @@ export class ApiError extends Error {
     this.status = status;
   }
 
-  static notFound() {
-    return new ApiError(404, "Not found");
+  static notFound(message = "Not found") {
+    return new ApiError(404, message);
   }
 
-  static badRequest() {
-    return new ApiError(400, "Bad request");
+  static badRequest(message = "Bad request") {
+    return new ApiError(400, message);
   }
 
-  static unauthorized() {
-    return new ApiError(401, "Unauthorized");
+  static unauthorized(message = "Unauthorized") {
+    return new ApiError(401, message);
   }
 
-  static forbidden() {
-    return new ApiError(403, "Forbidden");
+  static forbidden(message = "Forbidden") {
+    return new ApiError(403, message);
   }
 }
