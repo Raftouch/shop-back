@@ -14,15 +14,11 @@ export const authCheck = async (
   res: Response,
   next: NextFunction,
 ) => {
-  try {
-    const { id } = req.query;
+  const { id } = req.query;
 
-    if (!id) {
-      throw ApiError.badRequest();
-    }
-
-    res.json({ message: "Auth route", id });
-  } catch (error) {
-    next(error);
+  if (!id) {
+    return next(ApiError.badRequest());
   }
+
+  res.json({ message: "Auth route", id });
 };
