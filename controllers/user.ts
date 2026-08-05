@@ -17,7 +17,7 @@ export const authCheck = async (
   const { id } = req.query;
 
   if (!id) {
-    return next(ApiError.badRequest());
+    return next(ApiError.badRequest("ID is missing"));
   }
 
   res.json({ message: "Auth route", id });
