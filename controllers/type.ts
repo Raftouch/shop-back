@@ -14,5 +14,12 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const getAll = async (req: Request, res: Response) => {
-  res.json({ message: "Get all types route" });
+  try {
+    const types = await prisma.type.findMany();
+
+    res.status(200).json(types);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to get all types", error });
+  }
 };
