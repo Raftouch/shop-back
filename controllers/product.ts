@@ -1,7 +1,41 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { v4 as uuid } from "uuid";
+import path from "path";
+import { prisma } from "../lib/prisma";
+import { ApiError } from "../error/apiError";
 
-export const create = async (req: Request, res: Response) => {
-  res.json({ message: "Create product route" });
+export const create = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name, price, typeId, brandId, info } = req.body;
+
+    if (!req.files || !req.files.img) {
+      return res.status(400).json({ message: "Image is required" });
+    }
+
+    const { img } = req.files.img;
+
+    let fileName = uuid() + ".jpg";
+
+    await img.mv(path.resolve(__dirname, "..", "static", fileName));
+
+    const product = await prisma.product.create({
+      data: {
+        name,
+        price,
+        brandId,
+        typeId,
+        img: fileName,
+      },
+    });
+
+    return res.json(product);
+  } catch (error) {
+    next(ApiError.badRequest());
+  }
 };
 
 export const getAll = async (req: Request, res: Response) => {
