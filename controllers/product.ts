@@ -5,10 +5,16 @@ import { prisma } from "../lib/prisma";
 
 export const create = async (req: Request, res: Response) => {
   const { name, price, typeId, brandId, info } = req.body;
-  const { img } = req.files;
+
+  if (!req.files || !req.files.img) {
+    return res.status(400).json({ message: "Image is required" });
+  }
+
+  const { img } = req.files.img;
 
   let fileName = uuid() + ".jpg";
-  img.mv(path.resolve(__dirname, "..", "static", fileName));
+
+  await img.mv(path.resolve(__dirname, "..", "static", fileName));
 
   const product = await prisma.product.create({
     data: {
