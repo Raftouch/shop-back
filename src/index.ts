@@ -4,6 +4,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import router from "../routes/index";
 import { errorHandler } from "../middleware/errorHandling";
+import path from "path";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "static")));
 app.use(fileUpload({}));
 
 app.use("/api", router);
