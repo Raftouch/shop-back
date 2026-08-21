@@ -39,7 +39,34 @@ export const create = async (
 };
 
 export const getAll = async (req: Request, res: Response) => {
-  res.json({ message: "Get all products route" });
+  const { brandId, typeId } = req.query;
+
+  let products;
+
+  if (!brandId && !typeId) {
+    products = await prisma.product.findMany();
+  }
+  if (brandId && !typeId) {
+    products = await prisma.product.findMany({
+      where: {
+        brandId: Number(brandId),
+      },
+    });
+  }
+  if (!brandId && typeId) {
+    products = await prisma.product.findMany({
+      where: {
+        typeId: Number(typeId),
+      },
+    });
+  }
+  if (brandId && typeId) {
+    products = await prisma.product.findMany({
+      where: { brandId: Number(brandId), typeId: Number(typeId) },
+    });
+  }
+
+  res.status(200).json(products);
 };
 
 export const getOne = async (req: Request, res: Response) => {
